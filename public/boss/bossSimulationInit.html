@@ -1,0 +1,344 @@
+<!doctype html> 
+<html lang="en"> 
+    <head> 
+	   <meta charset="UTF-8" />
+        <title>Boss Fight</title>
+	   <script type="text/javascript" src="phaser.min.js"></script>
+        <style type="text/css">
+            body {
+                margin: 0;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <script type="text/javascript">
+            //all global variables are here
+            var game = new Phaser.Game(1000, 900, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
+            
+            var playerHealth = 100;
+            var bossHealth = 25; //this would change every boss stage to a bigger number
+            
+            //text objects that will stay static throughout the game
+            var pHealthText;
+            var bHealthText;
+            var vsText;
+            var titleText;
+            
+            //text objects that will change in value throughout the game. 
+            //I think that after the game is done, we can set the inventory numbers for each item to these numbers
+            var remainTextPencil;
+            var remainTextPen;
+            var remainTextCalculator;
+            var remainTextBook;
+            var remainTextLaptop;
+            var remainTextCoffee;
+            var remainTextCandyBar;
+            var remainTextFastFood;
+            var remainTextTaco;
+            
+            //This should be initialized to the numbers from inventory
+            //may have to alter some of teh functions a little bit but ill look into it later
+            var pencilRemaining = 5;
+            var penRemaining = 5;
+            var calculatorRemaining = 5;
+            var bookRemaining = 5;
+            var laptopRemaining = 5;
+            var coffeeRemaining = 5;
+            var candyBarRemaining = 5;
+            var fastFoodRemaining = 5;
+            var tacoRemaining = 5;
+            
+            //load all things we may need (mainly images really)
+            //will have to add some sprites later on
+            function preload(){
+                game.load.image('pencilImage', 'pencil/image.png');
+                game.load.image('penImage', 'pen/image.png');
+                game.load.image('calculatorImage', 'calculator/image.png');
+                game.load.image('bookImage', 'books/image.png');
+                game.load.image('laptopImage', 'laptop/image.png');
+                game.load.image('coffeeImage', 'coffee/image.png');
+                game.load.image('candyBarImage', 'candy_bar/image.png');
+                game.load.image('fastFoodImage', 'greasy_fast_food/image.png');
+                game.load.image('tacoImage', 'fuego_breakfast_taco/image.png');
+            }
+            
+            //actually put all of the objects on the window along with changing attributes (see phaser doc if you need help)
+            function create(){
+                game.stage.backgroundColor = "#000000";
+                var graphics = game.add.graphics(100, 100);
+                
+                //Title text
+                var style = {font: "56px Arial", fill: "#ffffff", fontStyle: "oblique"};
+                titleText = game.add.text(game.world.centerX, 35, "Boss Stage", style);
+                titleText.anchor.set(0.5);
+                
+                //Health progress text and the "vs"
+                var style1 = {font: "32px Arial", fill: "#ffffff"};
+                vsText = game.add.text(game.world.centerX, game.world.centerY - 225, "VS.", style1);
+                vsText.anchor.set(0.5);
+                
+                pHealthText = game.add.text(vsText.x/2, vsText.y + 100, "Health:  " + playerHealth + "/100", style1);
+                pHealthText.anchor.set(0.5);
+                
+                bHealthText = game.add.text(vsText.x + (vsText.x/2), pHealthText.y, "Health:  " + bossHealth + "/25", style1);
+                bHealthText.anchor.set(0.5);
+                
+                 // draw rectangles to differentiate items  
+                graphics.beginFill(0xFFFFFF, 0.7);
+                var attackInv = graphics.drawRect(-75, 400, 250, 325); //idk why this is negative x value but it wouldnt display properly, may have to alter this a little
+                var healthInv = graphics.drawRect(200, 400, 250, 325);
+                var generalInfo = graphics.drawRect(500, 400, 325, 325);
+                
+                //these will most likely go away after we get our sprites 
+                var playerSprite = graphics.drawRect(pHealthText.x - 160, pHealthText.y/2 - 100, 125, 125);
+                var bossSprite = graphics.drawRect(bHealthText.x - 160, bHealthText.y/2 - 100, 125, 125);
+                
+                graphics.endFill();
+                window.graphics = graphics;
+                
+                //all the buttons to be able to use the attack or gain health
+                var pencilButton = game.add.button(65, 560, 'pencilImage', pencilClick);
+                pencilButton.scale.setTo(0.1, 0.1);
+                pencilButton.anchor.set(0.5);
+                
+                var penButton = game.add.button(65, 610, 'penImage', penClick);
+                penButton.scale.setTo(0.1, 0.1);
+                penButton.anchor.set(0.5);
+                
+                var calculatorButton = game.add.button(65, 660, 'calculatorImage', calculatorClick);
+                calculatorButton.scale.setTo(0.1, 0.1);
+                calculatorButton.anchor.set(0.5);
+                
+                var bookButton = game.add.button(65, 710, 'bookImage', bookClick);
+                bookButton.scale.setTo(0.1, 0.1);
+                bookButton.anchor.set(0.5);
+                
+                var laptopButton = game.add.button(65, 760, 'laptopImage', laptopClick);
+                laptopButton.scale.setTo(0.1, 0.1);
+                laptopButton.anchor.set(0.5);
+                
+                var coffeeButton = game.add.button(340, 560, 'coffeeImage', coffeeClick);
+                coffeeButton.scale.setTo(0.1, 0.1);
+                coffeeButton.anchor.set(0.5);
+                
+                var candyBarButton = game.add.button(340, 610, 'candyBarImage', candyBarClick);
+                candyBarButton.scale.setTo(0.1, 0.1);
+                candyBarButton.anchor.set(0.5);
+                
+                var fastFoodButton = game.add.button(340, 660, 'fastFoodImage', fastFoodClick);
+                fastFoodButton.scale.setTo(0.1, 0.1);
+                fastFoodButton.anchor.set(0.5);
+                
+                var tacoButton = game.add.button(340, 710, 'tacoImage', tacoClick);
+                tacoButton.scale.setTo(0.1, 0.1);
+                tacoButton.anchor.set(0.5);
+                
+                //some words to help understand columns 
+                var damageTextA = game.add.text(145, 520, "damage", {font: "15px Arial", fill: "#000000"});
+                damageTextA.anchor.set(0.5);
+                
+                var remainTextA = game.add.text(240, 520, "remain", {font: "15px Arial", fill: "#000000"});
+                remainTextA.anchor.set(0.5);
+                
+                var healthTextH = game.add.text(415, 520, "health", {font: "15px Arial", fill: "#000000"});
+                healthTextH.anchor.set(0.5);
+                
+                var remainTextH = game.add.text(510, 520, "remain", {font: "15px Arial", fill: "#000000"});
+                remainTextH.anchor.set(0.5);
+                
+                //damage/health info for each item
+                var damageTextPencil = game.add.text(145, 560, "5", {font: "15px Arial", fill: "#000000"});
+                damageTextPencil.anchor.set(0.5);
+                
+                var damageTextPen = game.add.text(145, 610, "10", {font: "15px Arial", fill: "#000000"});
+                damageTextPen.anchor.set(0.5);
+                
+                var damageTextCalculator = game.add.text(145, 660, "20", {font: "15px Arial", fill: "#000000"});
+                damageTextCalculator.anchor.set(0.5);
+                
+                var damageTextBook = game.add.text(145, 710, "35", {font: "15px Arial", fill: "#000000"});
+                damageTextBook.anchor.set(0.5);
+                
+                var damageTextLaptop = game.add.text(145, 760, "60", {font: "15px Arial", fill: "#000000"});
+                damageTextLaptop.anchor.set(0.5);
+                
+                var healthTextCoffee = game.add.text(415, 560, "10", {font: "15px Arial", fill: "#000000"});
+                healthTextCoffee.anchor.set(0.5);
+                
+                var healthTextCandyBar = game.add.text(415, 610, "20", {font: "15px Arial", fill: "#000000"});
+                healthTextCandyBar.anchor.set(0.5);
+                
+                var healthTextFastFood = game.add.text(415, 660, "35", {font: "15px Arial", fill: "#000000"});
+                healthTextFastFood.anchor.set(0.5);
+                
+                var healthTextTaco = game.add.text(415, 710, "60", {font: "15px Arial", fill: "#000000"});
+                healthTextTaco.anchor.set(0.5);
+                
+                //remaining info. will decrease each time a corresponding button is clicked
+                remainTextPencil = game.add.text(240, 560, pencilRemaining, {font: "15px Arial", fill: "#000000"});
+                remainTextPencil.anchor.set(0.5);
+                
+                remainTextPen = game.add.text(240, 610, penRemaining, {font: "15px Arial", fill: "#000000"});
+                remainTextPen.anchor.set(0.5);
+                
+                remainTextCalculator = game.add.text(240, 660, calculatorRemaining, {font: "15px Arial", fill: "#000000"});
+                remainTextCalculator.anchor.set(0.5);
+                
+                remainTextBook = game.add.text(240, 710, bookRemaining, {font: "15px Arial", fill: "#000000"});
+                remainTextBook.anchor.set(0.5);
+                
+                remainTextLaptop = game.add.text(240, 760, laptopRemaining, {font: "15px Arial", fill: "#000000"});
+                remainTextLaptop.anchor.set(0.5);
+                
+                remainTextCoffee = game.add.text(510, 560, coffeeRemaining, {font: "15px Arial", fill: "#000000"});
+                remainTextCoffee.anchor.set(0.5);
+                
+                remainTextCandyBar = game.add.text(510, 610, candyBarRemaining, {font: "15px Arial", fill: "#000000"});
+                remainTextCandyBar.anchor.set(0.5);
+                
+                remainTextFastFood = game.add.text(510, 660, fastFoodRemaining, {font: "15px Arial", fill: "#000000"});
+                remainTextFastFood.anchor.set(0.5);
+                
+                remainTextTaco = game.add.text(510, 710, tacoRemaining, {font: "15px Arial", fill: "#000000"});
+                remainTextTaco.anchor.set(0.5);
+                
+            }
+            
+            function update(){
+                
+            }
+            
+            function render(){
+                
+            }
+            
+            function pencilClick(){
+                if(pencilRemaining > 0){
+                    pencilRemaining--;
+                    remainTextPencil.text = pencilRemaining;
+                    attackBoss(5);
+                    bossAttacks();
+                }
+                else {alert("no more pencils remain");} //just for now. remove any instance of alert later.
+                //essentially, I want any alerts to be put into the right most square and it will disappear after like a second.
+            }
+            
+            function penClick(){
+                if(penRemaining > 0){
+                    penRemaining--;
+                    remainTextPen.text = penRemaining;
+                    attackBoss(10);
+                    bossAttacks();
+                }
+                else {alert("no more pens remain");} //just for now. remove any instance of alert later.
+                //essentially, I want any alerts to be put into the right most square and it will disappear after like a second.
+            }
+            
+            function calculatorClick(){
+                if(calculatorRemaining > 0){
+                    calculatorRemaining--;
+                    remainTextCalculator.text = calculatorRemaining;
+                    attackBoss(20);
+                    bossAttacks();
+                }
+                else {alert("no more calculators remain");} //just for now. remove any instance of alert later.
+                //essentially, I want any alerts to be put into the right most square and it will disappear after like a second.
+            }
+            
+            function bookClick(){
+                if(bookRemaining > 0){
+                    bookRemaining--;
+                    remainTextBook.text = bookRemaining;
+                    attackBoss(35);
+                    bossAttacks();
+                }
+                else {alert("no more books remain");} //just for now. remove any instance of alert later.
+                //essentially, I want any alerts to be put into the right most square and it will disappear after like a second.
+            }
+            
+            function laptopClick(){
+                if(laptopRemaining > 0){
+                    laptopRemaining--;
+                    remainTextLaptop.text = laptopRemaining;
+                    attackBoss(60);
+                    bossAttacks();
+                }
+                else {alert("no more laptops remain");} //just for now. remove any instance of alert later.
+                //essentially, I want any alerts to be put into the right most square and it will disappear after like a second.
+            }
+            
+            function coffeeClick(){
+                if(coffeeRemaining > 0){
+                    coffeeRemaining--;
+                    remainTextCoffee.text = coffeeRemaining;
+                    blessUp(10);
+                }
+                else {alert("no more coffee remains");}
+            }
+            
+            function candyBarClick(){
+                if(candyBarRemaining > 0){
+                    candyBarRemaining--;
+                    remainTextCandyBar.text = candyBarRemaining;
+                    blessUp(20);
+                }
+                else {alert("no more candy bars remain");}
+            }
+            
+            function fastFoodClick(){
+                if(fastFoodRemaining > 0){
+                    fastFoodRemaining--;
+                    remainTextFastFood.text = fastFoodRemaining;
+                    blessUp(35);
+                }
+                else {alert("no more fast food remains");}
+            }
+            
+            function tacoClick(){
+                if(tacoRemaining > 0){
+                    tacoRemaining--;
+                    remainTextTaco.text = tacoRemaining;
+                    blessUp(60);
+                }
+                else {alert("no more tacos remain");}
+            }
+            
+            function blessUp(x){
+                if(playerHealth > 0){
+                    playerHealth += x;
+                    if(playerHealth > 100){
+                        playerHealth = 100;
+                    }
+                    pHealthText.text = "Health:  " + playerHealth + "/100";
+                }    
+            }
+            
+            function attackBoss(x){
+                if(bossHealth > 0){
+                    bossHealth -= x;
+                    bHealthText.text =  "Health:  " + bossHealth + "/25" 
+                    checkStatus();
+                }
+            }
+            
+            function checkStatus(){
+                if(bossHealth <= 0){
+                    alert("You win! Your reward is: "); //also if this is true it should go to next screen so we have to add it.
+                }
+                if(playerHealth <= 0){
+                    alert("You lose! enforcing penalty"); //same as above comment except it will kick you back. need to enforce penalty somehow
+                }
+            }
+            
+            function bossAttacks(){
+                var randDamager = Math.floor(Math.random() * (5 - 0 + 1)) + 0; //format is math.random() * (max - min + 1) + min....just in case we want to switch numbers for different bosses.
+                if(playerHealth > 0 && bossHealth > 0){
+                    playerHealth -= randDamager;
+                    pHealthText.text = "Health:  " + playerHealth + "/100";
+                    checkStatus();
+                }
+            }
+        </script>
+    </body>
+</html>

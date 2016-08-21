@@ -1,0 +1,422 @@
+div.start {
+	visibility: hidden;
+	position: absolute;
+	color: white;
+	padding: 0;
+	margin: 0;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 1920px;
+	height: 1080px;
+	z-index: 1;
+}
+
+div.gameArea {
+	position: absolute;
+	color: white;
+	padding: 0;
+	margin: 0;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 1920px;
+	height: 1080px;
+	z-index: 1;
+}
+
+div.diceShield {
+	height: 300px;
+	width: 300px;
+	position: absolute;
+	z-index: -1;
+}
+
+div.chat {
+	background: white;
+	height: 432;
+	max-height: 432;
+	max-width: 320px;
+	overflow: auto;
+	z-index: 100;
+
+}
+
+div.chat2 {
+	background: white;
+	max-height: 864;
+	height: 864;
+	overflow: auto;
+	z-index: 100;
+}
+
+
+div.container {
+	position: relative;
+}
+table {
+	empty-cells: hide;
+	background: black;
+	table-layout: absolute;
+	/*width: 100%;*/
+	/*height: 100%;*/
+	/*bottom: 0;*/
+	top: 0;
+	left: 0;
+	/*right: 0;*/
+	border-collapse: collapse; 
+	
+}
+
+table.intro {
+	width: 1920px;
+	height: 1080px;
+}
+td {
+	padding: 0px;
+	word-wrap: break-word;
+	text-align: center;
+	color: black;
+	/*background: #EEE1C6;*/
+	width: 160px;
+	/*color: transparent;*/
+	height: 108px;
+}
+
+td.playerNames {
+	color: black;
+	font-size: 40px;
+	overflow: visible;
+	background: #EEE1C6;
+}
+
+td.mini {
+	background-image: url("buttons/MiniGameIconFade.png");
+	background-size: 100% 100%; 
+	color: transparent;
+
+}
+
+td.boss {
+	background-image: url("buttons/BossIcon2.png");
+	background-size: 100% 100%; 
+	color: transparent;
+
+}
+
+td.ticket {
+	background-image: url("buttons/TicketIconFade.png");
+	background-size: 100% 100%; 
+	color: transparent;
+
+}
+
+td.spin {
+	background-image: url("buttons/SpinIconFade.png");
+	background-size: 100% 100%; 
+	color: transparent;
+
+}
+
+td.start {
+	background-image: url("buttons/StartIcon.png");
+	background-size: 100% 100%; 
+	color: transparent;
+}
+
+td.inventory {
+	background-image: url("buttons/InventoryIcon.png");
+	background-size: 100% 100%; 
+	color: transparent;
+}
+
+td.chatIcon {
+	background-image: url("buttons/ChatIcon.png");
+	background-size: 100% 100%; 
+	color: transparent;
+}
+
+td.chatIcon2 {
+	background-image: url("buttons/ChatIcon.png");
+	background-size: 100% 100%; 
+	color: transparent;
+}
+
+canvas {
+	position: fixed;
+	top: 0;
+	z-index: 0;
+
+}
+
+body {
+	background: black;
+	width: 1920px;
+	height: 1080px;
+}
+
+
+#popup { color: #000; background-color: #c0c0c0 }
+
+#popup a, #popup a:visited {
+	position: relative;
+	display: block;
+	width: 130px;
+	line-height: 30px;
+	text-align: right;
+	padding: 0 10px;
+	margin: 0;
+	border: 1px solid #666;
+	text-decoration: none;
+	font-size: 1em;
+	font-weight: bold;
+}
+
+#popup a span {
+	display: none;
+}
+
+#popup a:hover { 
+	background-color: transparent; 
+}
+
+#board .healthHUD  {
+	background: rgba(240,128,128, 0.9); 
+	/*background-image: url("ambulance.png");*/
+	background-size: 125px;
+	background-repeat: no-repeat;
+	background-position: 25px;
+	text-align: right;
+	vertical-align: center;
+	color: white; 
+	font-size: 2.5em;
+	
+}
+
+#board .moneyHUD {
+	background: #8FBC8F;
+	/*background-image: url("money.png");*/
+	background-size: 100px;
+	background-repeat: no-repeat;
+	background-position: 25px;
+	text-align: right;
+	vertical-align: center;
+	color: white; 
+	font-size: 2.5em;
+}
+
+#board .Inventory :hover{
+	
+}
+
+div.shield {
+	visibility: hidden;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+	background-color: transparent; 
+
+}
+
+div.shield table {
+	background: transparent;
+	table-layout: fixed;
+	width: 1920px;
+	height: 1080px;
+	top: 0;
+
+}
+
+html {
+	width: 1920px;
+	height: 1080px;
+}
+
+div.loading {
+	visibility: visible;
+}
+
+div.help {
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+	background: white;
+	z-index: 5;
+	border: 1px solid #666;
+	width: 1920px;
+	max-height: 1080px;
+	overflow: auto;
+}
+
+div.inventoryBack {
+	background: black;
+	width: 100%;
+	height: 100%;
+	border-width: inherit;
+}
+
+div.cell-glow {
+	
+	border-style:solid;
+    border-color: black;
+    -webkit-animation: mymove 2s infinite; /* Chrome, Safari, Opera */
+    animation: mymove 2s infinite;
+	display: inline-block;
+	border-radius: 8px;
+}
+
+div.dice-glow {
+	
+	border-style:solid;
+    border-color: black;
+    -webkit-animation: mymove 2s infinite; /* Chrome, Safari, Opera */
+    animation: mymove 2s infinite;
+	display: inline-block;
+	border-radius: 15px;
+	z-index: 1;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes mymove {
+   
+    40% {border-color: white;}
+}
+
+img {
+	width: 200px;
+	height: 200px;
+	padding: 0;
+	margin: 0;
+}
+
+div.cards {
+	visibility: hidden;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+	background-color: black;
+}
+
+img.ticket {
+	width: 951px;
+	height: 283px;
+}
+
+div.end {
+	width: 1920px;
+	height: 1080px;
+	position: fixed;
+	z-index: 4;
+	background: black;
+	color: white;
+	top: 0;
+	visibility: hidden;
+}
+
+img.inv {
+	width: 75px;
+	height: 75px;
+}
+
+img.icon {
+	width: 60px;
+	height: 60px;
+}
+
+img.hover {
+	width: 150px;
+	height: 100px;
+
+}
+
+img.hover2 {
+	width: 250px;
+	height: 100px;
+
+}
+ 
+ td.invIcon {
+	background-position: left;
+	background-repeat: no-repeat;
+	background-size: 75px 75px;
+	background:!important;
+	
+ }
+
+ td.invIcon p {
+ 	font-size: 20px;	
+ }
+ 
+td.invIcon:hover {
+	text-decoration: none; 
+	background: #ffffff; 
+	z-index: 6;
+}
+
+td.invIcon	span {
+	position: absolute; 
+	left: -9999px;
+	margin: 20px 0 0 0px; 
+	padding: 3px 3px 3px 3px;
+	border-style:solid; 
+	border-color:black; 
+	border-width: 0px; 
+	z-index: 6;
+}
+
+td.invIcon:hover span {
+	position: absolute;
+	left: 43%;
+	top: 78.5%;
+	}
+ 
+td.boss:hover {
+	text-decoration: none; 
+	
+	z-index: 6;
+}
+
+td.boss	span {
+	position: absolute; 
+	left: -9999px;
+	margin: 20px 0 0 0px; 
+	padding: 3px 3px 3px 3px;
+	border-style:solid; 
+	border-color:black; 
+	border-width:1px; 
+	z-index: 6;
+}
+
+td.boss:hover span {
+	position: absolute;
+	left: inherit;
+	/* bottom: 25px; */
+	background: #EEE1C6;
+}
+
+td.boss p {
+	color:black;
+	display:inline;
+}
+
+td.note {
+	width: 600px;
+	background-color: rgba(128,128,128, .75);
+}
+
+ul
+{
+    list-style-type: none;
+    text-align: left;
+}
+
+
+img.hud {
+	height: 60px;
+	width: auto;
+	vertical-align: bottom;
+}

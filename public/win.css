@@ -1,0 +1,84 @@
+div.fireworks{
+    position: relative;
+    width: 950px;
+    height: 750px;
+    z-index: 0;
+}
+
+div.words{
+    bottom: 200px;
+    z-index: 10;
+}
+
+img{
+    
+}
+
+div.winner2 {
+    width: 1920px;
+    height: 1080px;
+}
+
+.white{
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    z-index: 0;
+}
+
+.green{
+    width: 200px;
+    height: 200px;
+    position: relative;
+    left: 500px;
+    z-index: 1;
+}
+
+.yellow{
+    float: right;
+    position: relative;
+    width: 400px;
+    height: 400px;
+    z-index: 2;
+}
+
+.blue{
+    position: relative;
+    bottom: 150px;
+    width: 450px;
+    height: 450px;
+    z-index: 3;
+}
+
+.orange{
+    position: relative;
+    left: 500px;
+    bottom: 200px;
+    width: 300px;
+    height: 300px;
+    z-index: 4;
+}
+
+.red{
+    position: relative;
+    bottom: 250px; 
+    width: 300px;
+    height: 300px;
+    z-index: 5;
+}
+
+.bottomGreen{
+    position: relative;
+    left: 50px;
+    bottom: 750px;
+    width: 350px;
+    height: 350px;
+    z-index: 6;
+}
+
+.words{
+    position: relative;
+    bottom: 300px;
+    left: 35px;
+    width: 800px;
+}

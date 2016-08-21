@@ -1,0 +1,435 @@
+<!-- External libraries and scripts -->
+<link rel="stylesheet" type="text/css" href="main.css">
+<link rel="stylesheet" type="text/css" href="win.css">
+<script src="/socket.io/socket.io.js"></script>
+<script src="dice.js"></script>
+<script type="text/javascript" src="phaser.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+<script type="text/javascript" src="minigameMC/minigame.js"></script>
+<script type="text/javascript" src="minigameMC/multipleChoice2.js"></script>
+<script type="text/javascript" src="minigameMC/multipleChoice3.js"></script>
+<script type="text/javascript" src="reveilleJump.js"></script>
+<script type="text/javascript" src="store.js"></script>
+<script type="text/javascript" src="boss.js"></script>
+<script type="text/javascript" src="boss2.js"></script>
+<script type="text/javascript" src="boss3.js"></script>
+<script type="text/javascript" src="boss4.js"></script>
+<script type="text/javascript" src="front-end.js"></script>
+<script type="text/javascript" src="SpinWheel/bonusWheel.js"></script>
+
+<div class = "contaniner">
+<!-- Help screen -->
+<div class="help" id="help">
+    <center><button onclick="closeHelp()" style = "border: 5px solid #666;">Close Help</button></center>
+    <h1>Introduction</h1>
+    <p>“You and friend have just been accepted into the prestigious Texas A&M University! Being the competitive friends both of you are, you decide to place a wager - you decide that whoever graduates from Texas A&M first, they get to choose what they want their friend to buy for them. It could be a car, it could be money, anything that floats your boat. Be warned, however, that you will face many obstacles along your path. You may want to give up midway, you may have to stay longer than your expected graduation date because you have failed or Q-dropped certain classes. Don’t be afraid. YOU WILL PASS AND YOU WILL GRADUATE AT THE END, JOINING A NETWORK OF FORMER AGGIES SPREAD OUT ALL OVER THE WORLD!”
+    </p>
+    <br>
+    <br>
+    <h1>Rules</h1>
+    <h2>Operational Gameplay Rules</h2>
+    <ol>
+        <li>Both players will roll dice to determine who goes first. The player who rolls the highest number goes first. in the event of a tie, both players will re-roll until a winner is chosen.</li>
+        <li>Players will take alternating turns. At the beginning of one’s turn, they will have two options: either the current player can visit the “MSC Bookstore” (For store specifics, see the Store sub-section in the Mechanics section of the document), or they can roll a dice to get a value and move up the board by the equivalent value. </li>
+        <li>Once landing on a space, the player will have to perform the action that is specified by the space, if any: </li>
+        <ul>
+            <li>If the player lands on a space which requires them to play a mini game, the user will have to play the mini game challenge for that space. See Mini Games sub-section in the Mechanics section to see how these mini games work. </li>
+            <li>If the player lands on a space which requires them to pick up a card from the “Ticket Pull,” the player will pick up the card and will either face the consequences or reap the benefits of the card of which they just picked up. </li>
+            <li>If the player lands on a space with a labelling of a certain amount of currency, the player will earn that much currency or lose that much currency. This space on the board is NOT a one time use ideal. If the second player also lands on this space after the first player has already landed on the same space, the second player will still get the reward. </li>
+            <li>If the player rolls a dice and gets a number larger than that is needed to reach the closest Boss space, the number of the dice will be ignored and the player shall proceed to the Boss space and try to beat the Boss. See Boss sub-section in the Mechanics section to see how these battles take place.</li>
+            <li>If the player finishes rolling his dice and is done moving, their turn has ended and it is now the next person’s turn. </li>
+        </ul>
+    </ol>
+    <h2>Constitutive Rules</h2>
+    <ol>
+        <li>At beginning of game, everyone starts with a certain amount currency (tbd).</li>
+        <li>Players go one at a time and have to wait for previous players to finish turn before acting on their turn.</li>
+        <li>Players can only access the store before rolling the dice. Once dice has been rolled, player is not allowed to access store. However, if the player reaches the Boss stage, the player is allowed to visit the store again to prepare for the upcoming battle which occurs during the same turn. </li>
+        <li>Players cannot skip over boss stages, if dice value is greater than space distance between player and boss stage, player goes to boss stage space and then has to finish the boss stage challenge. </li>
+    </ol>
+    <h2>Implicit Rules</h2>
+    <ol>
+        <li>Players must go through their turn in a reasonable time. There will be a timer in the game. If player does not begin their turn before time runs out, turn ends for player (This is subject to change to add some sort of penalty if any).</li>
+        <li>Players are to remain in the game until one finishes. Please do not quit midway just because you are losing. An Aggie does not quit. We are the FIGHTIN’ Texas Aggies!
+        </li>
+        <li>Remember the Aggie Honor Code: “An Aggies does not lie, cheat, or steal nor tolerate those who do.”</li>
+    </ol>
+    <h1>Mechanics</h1>
+    <h2>Mini Games</h2>
+    <p>Players have to opportunity to land on mini game spaces in which a random mini game will be generated for the player to complete. These mini games include, but are not limited to, quizzes, guess the word, and repeat a pattern that is shown to them. Players will also have to opportunity to gain some rewards in the form of currency based on how fast they complete a game as well as how correctly they answer questions in, for instance, the quizzes. See Benefits/Penalties section for possible outcomes of mini games.
+    </p>
+    <h2>Store</h2>
+    <p>When a player has not began to roll, the player has the option to visit the “MSC Bookstore.” Players can only access the store during their turn. If it is not the players turn, the store option will be greyed out and unavailable.
+        <br>The bookstore gives the player the opportunity to buy “weapons and health” that will aid them in beating the boss. The players will have to strategically buy their tools as their buying power is limited by the amount of currency the player currently has gained along the way.
+        <br>Furthermore, the store’s inventory is dynamic, meaning the stock and inventory changes as the game progresses, meaning more and more powerful items become unlocked after reaching certain spots in the game, favoring more weapon stock as the turn count gets larger (ideally players start to get closer to the boss). The store has its own timer, set at 1 minute and 30 seconds. Upon expiration the store will kick the user back to the main board (saving any changes that may have taken place (Ideally, there would be some sort of autosave mechanism which kicks in after buying anything from the store).</p>
+    <h2>Boss Battles</h2>
+    <p>During the boss stages, the player must select which combination of acquired tools they have will be the one that is able to overcome the boss opponents while also keeping in mind that they have to defend against the attacks of the boss onto the user. The winner of the battle is determined by who loses their health first. If the boss runs out of health, the player wins, else, the boss wins. This is similar to a “pokemon” style of battle where both parties attack each other turn by turn until one is completely diminished of health. See Benefits/Penalties section for possible outcomes of the battles.</p>
+    <h2>Ticket Pull</h2>
+    <p>This mechanic is added to give more of a luck based mechanic to the game. The player has the opportunity to either win currency or “weapons” or lose currency or move back certain amount of spaces. The “tickets” will be shuffled and randomly generated maximizing the level of probability of either getting a good or bad “ticket.”</p>
+    <h2>"Win State"</h2>
+    <p>The player who defeats the “final boss” first graduates and wins the entire game. The final boss will be the fourth boss located near the start of the board.</p>
+    <h2>"Fail State" (lose)</h2>
+    <p>A player fails or loses the game only if the other player defeats the final boss before them. Losing to a boss does not make the player lose, since they have to roll to move backwards (away from the boss tile).</p>
+    <h2>Socialize</h2>
+    <p>Both players can communicate with the other player using predefined pieces of texts. The player will be able to select a text and the text will be shown in the other player’s window. This is similar to what you will see in Mario Kart 8’s multiplayer waiting screen before each race. In a future update, we hope to simply include a chat box where both players can say whatever they would like. When this does happen, remember: This game is created just for fun! Please refrain from profanity. </p>
+    <h1>Benefits/Penalties</h1>
+    <h2>Mini Games</h2>
+    <p>Mini Games will only benefit the player. Depending on the mini-game, the player will be get the chance to earn more coins/currency as well as the possibility of getting a “weapon” which will aid them in completing the game at a faster pace. If they lose, they will not get anything nor lose anything, thus, ending their turn.</p>
+    <h2>Boss Battles</h2>
+    <p>The Boss Battle will be the x-factor when determining who will win first. The benefits of winning the Boss battle include getting a chance to earn extra rewards such as extra coins/currency. If won, the player will be able to get a set amount times a number between 1 and 3. This number will be determined on a simple dice roll which is only available after beating the boss. For example, if the player receives $200, the player can roll for higher amount. Say the player rolls a 3, the player will receive $600 total from that scenario.
+        <br> However, if the player loses, not only will it get the second player the chance to either catch up or to take the lead, but it will also make the player who lost go in the reverse direction for 1 turn. This is done by, again, rolling a dice that will include a number from -1 to -3. Based on the number rolled, the player will go backwards. This means that the player will have to battle the boss again. Fortunately, The player will be able to gain back their FULL health so that they would not have to waste money on buying health and could spend it on “weapons” instead. However, by adding this mechanic, it gives the player a chance to strategically plan their battle by being able to gain more coins from landing of certain spots as well as being able to visit the store to buy more items.</p>
+</div>
+
+<!-- Beginning screen -->
+<div id="gameArea">
+    <style>
+    button {
+        width: 100px;
+        height: 50px;
+        border: 2px solid white;
+        color: black;
+        background-color: transparent;
+    }
+    
+    button:hover {
+        background-color: #500000;
+        color: white;
+    }
+    </style>
+    <table class="intro" align="center" cellpadding="15px">
+        <tr>
+            <td bgcolor="#EEE1C6">
+                <h1 align="center" style="font-size: 60px;">Howdy!</h1>
+                <h3 align="center"style="font-size: 40px;">Welcome to the Super Aggie Party Online Game</h3>
+                <hr align="center" width="75%" />
+                <p align="center" style="padding-left: 250px; padding-right: 250px; font-size: 20px;">Welcome to Super Aggie Party! To start a new game, please enter your name and click on "New Game". You will then be presented with a room number. Please ask your friend to follow the instructions below... </p>
+				<p align="center" style="padding-left: 250px; padding-right: 250px;font-size: 20px;">To join a game/room, ask your friend to give you the Room Number of the game they have created. After retrieving the number, enter your name and enter the room number. After doing so, click on "Join Game"<p>
+				<h3 align="center" style="font-size: 30px;">We hope you enjoy!</h3>
+                <div class="loading" id="loading">
+                    </script>
+                </div>
+                <form id="form">
+                    Player Name:
+                    <input type="text" name="name" maxlength="8"> Room:
+                    <input type="text" name="room">
+                </form>
+                <button onclick="newGame()">New Game</button>
+                <button onclick="joinGame1()">Join Game</button>
+                <center>
+                    <img src="Picture2.png" alt="intro pic" title="intro image mascot">
+                </center>
+            </td>
+        </tr>
+    </table>
+</div>
+</div>
+
+<!-- Board -->
+<div id="start" class="start">
+    <table id="board" border="0" cellpadding="0" cellspacing="0" style="color: transparent;">
+        <tr>	<!-- row 1 -->
+            <td id="10" class="spin">Spin Wheel</td>
+            <td id="11" class="boss" onmouseover="bossInfo(this.id)">B
+				<span style="top:25px;">
+					<p>Boss Name: </p><p id="bossName1">foo</p><br>
+					<p>Health: </p><p id="bossHealth1">x</p><br>
+					<p>Damage: </p><p id="bossDamage1">x</p>
+				</span>
+			</td>
+            <td id="12" class="mini">Mini Game</td>
+            <td id="13" class="ticket">Ticket Pull</td>
+            <td id="14" class="spin">Spin Wheel</td>
+            <td id="15" class="mini">Mini Game</td>
+            <td id="16" class="spin">Spin Wheel</td>
+            <td id="17" class="ticket">Ticket Pull</td>
+            <td id="18" class="spin">Spin Wheel</td>
+            <td id="19" class="spin">Spin Wheel</td>
+            <td id="20" class="boss" onmouseover="bossInfo(this.id)">B
+				<span style="top:25px;"><!--contents of the pop-up hover-->
+					<p>Boss Name: </p><p id="bossName2">foo</p><br>
+					<p>Health: </p><p id="bossHealth2">x</p><br>
+					<p>Damage: </p><p id="bossDamage2">x</p>				
+				</span>
+			</td>
+            <td id="21" class="ticket">Ticket Pull</td>
+        </tr>
+		
+        <tr>	<!-- row 2 -->
+            <td id="9" class="ticket">Ticket Pull</td>
+			<td><!-- <button onclick="getItems()">GET MONEY</button> --></td>
+            <td><!-- <button onclick="runBoss()">GIT GUD</button> --></td>
+            <td><!-- <button onclick="runBoss2()">GIT GUD2</button> --></td>
+            <td><!-- <button onclick="runBoss3()">GIT GUD3</button> --></td>
+
+            <td colspan="1" style="vertical-align: bottom; text-align: right;"> <img src="health.png" class="hud"> </td>
+
+            <td colspan="2" style="vertical-align: bottom; text-align: right;" > <img src="money.png" class="hud"> </td>
+
+            <td></td>
+            <td></td>
+			<td></td>
+			<td id="22" class="spin">Spin Wheel</td>
+        </tr>
+		
+        <tr>	<!-- row 3 -->
+            <td id="8" class="spin">Spin Wheel</td>
+            <td colspan="2" class="chatIcon">Chat</td>
+            <td><!-- <button onclick="runBoss4()">GIT GUD4</button> --></td>
+            <td id="playerNames" class="playerNames"></td>
+            <td colspan="1" class="healthHUD" id="healthHUD"><!--Health display-->
+				<div class = "hostHealth" id="HostHealth">host</div>
+				<div class = "secondHealth" id="PlayerHealth">second</div>
+			</td>			
+            <td colspan="2" class="moneyHUD" id="moneyHUD"><!--Money display-->
+				<div class = "hostMoney" id="HostMoney">host</div>
+				<div class = "secondMoney" id="PlayerMoney">second</div>
+			</td>
+            <td></td>
+			<td style="background-color: rgba(232, 224, 162, 0.85)" colspan="2" rowspan="2">
+                <div class="cell-glow" id="help-glow"><!--handles border glow of image-->
+                    <img src="buttons/HelpButton.png" width="300" height="300" id="helpButton" onclick="displayHelp()">
+                    <div style="clear:both;"></div>
+               </div>
+            </td>
+            <td id="23"class="mini">Mini Game</td>
+        </tr>
+		
+        <tr>	<!-- row 4 -->
+            <td id="7"class="mini">Mini Game</td>
+            <td colspan="2" rowspan="4"> 
+				<div class="chat" id="chat">
+					<ul id="messages"></ul>
+				</div>
+            </td>            
+            <td></td>            
+            <td></td>            
+            <td></td>            
+            <td></td>            
+            <td></td>
+            <td></td>
+            <td id="24" class="spin">Spin Wheel</td>
+        </tr>
+		
+        <tr>	<!-- row 5 -->
+            <td id="6" class="spin">Spin Wheel</td>
+            <td></td>
+            <td class="inventory" colspan="4">
+                filler text
+			</td>
+            <td></td>
+
+			<td style="background-color:rgba(232, 224, 162, 0.85)" colspan="2" rowspan="2">
+                <div class="cell-glow" id="store-glow">
+                    <img src="buttons/StoreButton.png" width="300" height="300" id="store" onclick="runStore()">
+                    <div style="clear:both;"></div>
+               </div>
+            </td>
+            <td id="25" class="ticket">Ticket Pull</td>
+        </tr>
+		
+        <tr>	<!-- row 6 -->
+            <td id="5" class="ticket">Ticket Pull</td>
+			<td></td>
+			<!--Due to overriding issues with css, we declare attributes here for these icons-->
+            <td class="invIcon" style="background: rgba(255,255,255,0.9); color: black; text-align: right; background-image:url('boss/pencil/image.png'); 
+					background-position:left; background-repeat:no-repeat; background-size: 75px 75px;">
+				<p style="text-align:right" id="pencilVal">XX</p>
+				<span>
+					<img class="hover2" src="Store/pencil/damage.png" alt="pencil damage" class="use">
+				</span>
+			</td>
+			<td style="background: rgba(255,255,255,0.9); color: black; text-align: right;" class="invIcon">
+				<img class="inv" src="boss/books/image.png"></img>
+				<span>
+					<img class="hover2" src="Store/books/damage.png" alt="books damage">
+				</span>
+			</td>
+            <td id="booksVal" style="background: rgba(255,255,255,0.9); color: black; text-align: center;"></td>
+            <td class="invIcon" style="background: rgba(255,255,255,0.9); color: black; text-align: right; background-image:url('boss/candy_bar/image.png'); 
+					background-position:left; background-repeat:no-repeat; background-size: 75px 75px;">
+				<p style="text-align:right" id="candyVal">XX</p>
+				<span>
+					<img class="hover2" src="Store/candy_bar/health.png" alt="candy_bar health">
+				</span>
+			</td>
+
+            <td></td>
+            <td id="26" class="spin">Spin Wheel</td>
+
+        </tr>
+		
+        <tr>	<!-- row 7 -->
+            <td id="4" class="spin">Spin Wheel</td>
+            <td></td>
+
+            <td class="invIcon" style="background: rgba(255,255,255,0.9); color: black; text-align: right; background-image:url('boss/pen/image.png'); 
+					background-position:left; background-repeat:no-repeat; background-size: 75px 75px;">
+				<p style="text-align:right" id="penVal">XX</p>
+				<span>
+					<img class="hover2" src="Store/pen/damage.png" alt="pen damage" class="use">
+				</span>
+			</td>
+
+            <td style="background: rgba(255,255,255,0.9); color: black; text-align: right;" class="invIcon">
+				<img class="inv" src="boss/laptop/image.png"></img>
+				<span>
+					<img class="hover2" src="Store/laptop/damage.png" alt="laptop damage" class="use">
+				</span>
+			</td>
+            <td id="laptopVal" style="background: rgba(255,255,255,0.9); color: black; text-align: center;"></td>
+            <td class="invIcon" style="background: rgba(255,255,255,0.9); color: black; text-align: right; background-image:url('boss/greasy_fast_food/image.png'); 
+					background-position:left; background-repeat:no-repeat; background-size: 75px 75px;">
+				<p style="text-align:right" id="fastFoodVal">XX</p>
+				<span>
+					<img class="hover2" src="Store/greasy_fast_food/health.png" alt="greasy_fast_food health">
+				</span>
+			</td>
+            <td></td>
+			<td colspan="2" rowspan="2" style="background-color: rgba(232, 224, 162, 0.85);">
+            <div class="diceShield" id="diceShield"></div>
+                <div class="dice-glow" id="dice-glow">
+                    <img src="Dice/Start.svg" width="300" height="300" id="Dice" style="z-index: 5" onclick="App[App.myRole].movePlayer(ShowRollDice());">
+                    <div style="clear:both;"></div>
+                </div>
+            </td>
+
+            <td id="27"class="mini">Mini Game</td>
+        </tr>
+		
+        <tr>	<!-- row 8 -->
+            <td id="3" class="mini">Mini Game</td>
+            <td colspan="2" style="background: white">
+				<form id="chatForm">
+					<input id="m" autocomplete="off" placeholder="Type message here..." />
+                </form>
+                <button onclick="chat()">Send</button>
+            </td>
+            <td></td>
+            <td class="invIcon" style="background: rgba(255,255,255,0.9); color: black; text-align: right; background-image:url('boss/calculator/image.png'); 
+					background-position:left; background-repeat:no-repeat; background-size: 75px 75px;">
+				<p style="text-align:right" id="calcVal">XX</p>
+				<span>
+					<img class="hover2" src="Store/calculator/damage.png" alt="calculator damage" class="use">
+				</span>
+			
+			</td>
+            <td style="background: rgba(255,255,255,0.9); color: black; text-align: right;" class="invIcon">
+				<img class="inv" src="boss/coffee/image.png"></img>
+				<span>
+					<img class="hover2" src="Store/coffee/health.png" alt="coffee health" class="use">
+				</span>
+			</td>
+            <td id="coffeeVal" style="background: rgba(255,255,255,0.9); color: black; text-align: center;"></td>
+            <td class="invIcon" style="background: rgba(255,255,255,0.9); color: black; text-align: right; background-image:url('boss/fuego_breakfast_taco/image.png'); 
+					background-position:left; background-repeat:no-repeat; background-size: 75px 75px;">
+				<p style="text-align:right" id="tacoVal">XX</p>
+				<span>
+					<img class="hover2" src="Store/fuego_breakfast_taco/health.png" alt="fuego_breakfast_taco health" class="use">
+				</span>
+			</td>
+            <td></td>
+
+            <td id="28" class="spin">Spin Wheel</td>
+        </tr>
+		
+        <tr>	<!-- row 9 -->
+            <td id="2" class="spin">Spin Wheel</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+			<td></td>
+			<td></td>
+            <td id="29" class="ticket">Ticket Pull</td>
+        </tr>
+		
+        <tr>	<!-- row 10 -->
+            <td id="1" class="start">Start</td>
+            <td id="40" class="boss"onmouseover="bossInfo(this.id)">B
+				<span style="bottom:30px;">
+					<p>Boss Name: </p><p id="bossName4">foo</p><br>
+					<p>Health: </p><p id="bossHealth4">x</p><br>
+					<p>Damage: </p><p id="bossDamage4">x</p>
+				</span>
+			</td>
+            <td id="39" class="spin">Spin Wheel</td>
+            <td id="38" class="mini">Mini Game</td>
+            <td id="37" class="spin">Spin Wheel</td>
+            <td id="36" class="ticket">Ticket Pull</td>
+            <td id="35" class="spin">Spin Wheel</td>
+            <td id="34" class="ticket">Ticket Pull</td>
+            <td id="33" class="spin">Spin Wheel</td>
+            <td id="32" class="mini">Mini Game</td>
+            <td id="31" class="spin">Spin Wheel</td>
+            <td id="30" class="boss"onmouseover="bossInfo(this.id)">B
+				<span style="bottom:30px;">
+					<p>Boss Name: </p><p id="bossName3">foo</p><br>
+					<p>Health: </p><p id="bossHealth3">x</p><br>
+					<p>Damage: </p><p id="bossDamage3">x</p>
+				</span>
+			</td>
+        </tr>
+    </table>
+</div>
+
+<!-- Shield -->
+<div class="shield" id="shield" style="width: 1920px; height: 1080px;">
+    <table>
+        <tr>
+            <td class="note" style = "font-size: 3.5em; color: #00FF00;" rowspan="6"> <center>Your Opponent's turn is currently in play! Please Stand By...</center></td>
+            <td colspan="2" class="chatIcon2">Chat</td>
+        </tr>
+        <tr>
+            <td colspan="2" rowspan="4"> 
+                <div class="chat2" id="chat2">
+                    <ul id="messages2"></ul>
+                </div>
+            </td>
+        </tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr>
+            <td colspan="2" style="background: white">
+                <form id="chatForm2">
+                    <input id="m" autocomplete="off" placeholder="Type message here..." />
+                </form>
+                <button onclick="chat2()">Send</button>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+
+
+
+
+<!-- Ticket Pull -->
+<div class="cards" id="cards">
+<button onclick="closeTicket()" style="color: white" >Close</button>
+</div>
+
+<div class="end" id="end">
+<div class="winner2" id="winner2" style="visibility: hidden;">
+<div class = "fireworks">
+                <img src="assets/white.gif" alt="fireworkswhite" class = "white">
+                <img src="assets/green.gif" alt="fireworksgreen" class = "green">
+                <img src="assets/yellow.gif" alt="fireworksyellow" class = "yellow">
+                <img src="assets/blue.gif" alt="fireworksblue" class = "blue">
+                <img src="assets/orange.gif" alt="fireworksorange" class = "orange">
+                <img src="assets/red.gif" alt="fireworksred" class = "red">
+                <img src="assets/green.gif" alt="fireworksgreen" class = "bottomGreen">
+            </div>
+            <div class ="words">
+                <img src= "assets/words.png" alt = "words" class = "words">
+            </div>
+</div>
+<h1 id="winner" style="text-align: center;"></h1>
+</div>
+
+</html>

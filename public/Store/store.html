@@ -1,0 +1,465 @@
+<!doctype html> 
+<html lang="en"> 
+    <head> 
+	   <meta charset="UTF-8" />
+        <title>Store</title>
+	   <script type="text/javascript" src="phaser.min.js"></script>
+        <style type="text/css">
+            body {
+                margin: 0;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <script type="text/javascript">
+            var game = new Phaser.Game(1000, 800, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
+            var pencil;
+            var pen;
+            var calculator;
+            var books;
+            var laptop;
+            var coffee;
+            var candyBar;
+            var fastFood;
+            var tacos;
+            var titleText;
+            var exit;
+            var determine; //this variable is used to see what is being bought.
+            var buy;
+            
+            function preload(){
+                //pencil
+                game.load.image('pencil_title', 'pencil/title.png');
+                game.load.image('pencil_image', 'pencil/image.png');
+                game.load.image('pencil_description', 'pencil/description.png');
+                game.load.image('pencil_damage', 'pencil/damage.png');
+                game.load.image('pencil_cost', 'pencil/cost.png');
+                
+                //pen
+                game.load.image('pen_title', 'pen/title.png');
+                game.load.image('pen_image', 'pen/image.png');
+                game.load.image('pen_description', 'pen/description.png');
+                game.load.image('pen_damage', 'pen/damage.png');
+                game.load.image('pen_cost', 'pen/cost.png');
+                
+                //calculator
+                game.load.image('calculator_title', 'calculator/title.png');
+                game.load.image('calculator_image', 'calculator/image.png');
+                game.load.image('calculator_description', 'calculator/description.png');
+                game.load.image('calculator_damage', 'calculator/damage.png');
+                game.load.image('calculator_cost', 'calculator/cost.png');
+                
+                //books
+                game.load.image('books_title', 'books/title.png');
+                game.load.image('books_image', 'books/image.png');
+                game.load.image('books_description', 'books/description.png');
+                game.load.image('books_damage', 'books/damage.png');
+                game.load.image('books_cost', 'books/cost.png');
+                
+                //laptop
+                game.load.image('laptop_title', 'laptop/title.png');
+                game.load.image('laptop_image', 'laptop/image.png');
+                game.load.image('laptop_description', 'laptop/description.png');
+                game.load.image('laptop_damage', 'laptop/damage.png');
+                game.load.image('laptop_cost', 'laptop/cost.png');
+                
+                //coffee
+                game.load.image('coffee_title', 'coffee/title.png');
+                game.load.image('coffee_image', 'coffee/image.png');
+                game.load.image('coffee_description', 'coffee/description.png');
+                game.load.image('coffee_health', 'coffee/health.png');
+                game.load.image('coffee_cost', 'coffee/cost.png');
+                
+                //candy bar
+                game.load.image('candyBar_title', 'candy_bar/title.png');
+                game.load.image('candyBar_image', 'candy_bar/image.png');
+                game.load.image('candyBar_description', 'candy_bar/description.png');
+                game.load.image('candyBar_health', 'candy_bar/health.png');
+                game.load.image('candyBar_cost', 'candy_bar/cost.png');
+                
+                //fast Food
+                game.load.image('fastFood_title', 'greasy_fast_food/title.png');
+                game.load.image('fastFood_image', 'greasy_fast_food/image.png');
+                game.load.image('fastFood_description', 'greasy_fast_food/description.png');
+                game.load.image('fastFood_health', 'greasy_fast_food/health.png');
+                game.load.image('fastFood_cost', 'greasy_fast_food/cost.png');
+                
+                //tacos
+                game.load.image('taco_title', 'fuego_breakfast_taco/title.png');
+                game.load.image('taco_image', 'fuego_breakfast_taco/image.png');
+                game.load.image('taco_description', 'fuego_breakfast_taco/description.png');
+                game.load.image('taco_health', 'fuego_breakfast_taco/health.png');
+                game.load.image('taco_cost', 'fuego_breakfast_taco/cost.png');
+                
+                //buy button
+                game.load.image('buyButton', 'buyButton.png');
+                
+                //exit store button
+                game.load.image('exitButton', 'exitButton.png');
+            }
+            
+            function create(){
+                game.stage.backgroundColor = "#000000";
+                
+                //title text
+                var style = {font: "56px Arial", fill: "#ffffff", fontStyle: "oblique"};
+                titleText = game.add.text(game.world.centerX, 35, "MSC Bookstore", style);
+                titleText.anchor.set(0.5);
+                
+                //add our buttons/list of items in a vertical alignment towards the left side
+                pencil = game.add.button(150, 175, 'pencil_title', pencilClick, this);
+                pencil.scale.setTo(0.4, 0.4);
+                pencil.anchor.set(0.5);
+                
+                pen = game.add.button(150, pencil.y + 60, 'pen_title', penClick);
+                pen.scale.setTo(0.4, 0.4);
+                pen.anchor.set(0.5);
+                
+                calculator = game.add.button(150, pencil.y + 120, 'calculator_title', calcClick);
+                calculator.scale.setTo(0.4, 0.4);
+                calculator.anchor.set(0.5);
+                
+                books = game.add.button(150, pencil.y + 180, 'books_title', bookClick);
+                books.scale.setTo(0.4, 0.4);
+                books.anchor.set(0.5);
+                
+                laptop = game.add.button(150, pencil.y + 240, 'laptop_title', laptopClick);
+                laptop.scale.setTo(0.4, 0.4);
+                laptop.anchor.set(0.5);
+                
+                coffee = game.add.button(150, pencil.y + 300, 'coffee_title', coffeeClick);
+                coffee.scale.setTo(0.4, 0.4);
+                coffee.anchor.set(0.5);
+                
+                candyBar = game.add.button(150, pencil.y + 360, 'candyBar_title', candyBarClick);
+                candyBar.scale.setTo(0.4, 0.4);
+                candyBar.anchor.set(0.5);
+                
+                fastFood = game.add.button(150, pencil.y + 420, 'fastFood_title', foodClick);
+                fastFood.scale.setTo(0.4, 0.4);
+                fastFood.anchor.set(0.5);
+                
+                tacos = game.add.button(150, pencil.y + 480, 'taco_title', tacoClick);
+                tacos.scale.setTo(0.4, 0.4);
+                tacos.anchor.set(0.5);
+                
+                exit = game.add.button(75, game.height - 40, 'exitButton', exitStore);
+                exit.scale.setTo(0.4, 0.4);
+                exit.anchor.set(0.5);
+            }
+            
+            function update(){}
+            function render(){}
+            
+            //exit the store if the button is clicked
+            function exitStore(){
+                alert("You have exitted the store. Good Bye!");
+            }
+            
+            //buy the item currently being displayed. Item is determined by the determine variable.
+            //each item has a different determine value
+            function buyItem(){
+                if(determine == 1){
+                    alert("You bought a pencil");
+                }
+                
+                else if(determine == 2){
+                    alert("You bought a pen");
+                }
+                
+                else if(determine == 3){
+                    alert("You bought a calculator");
+                }
+                
+                else if(determine == 4){
+                    alert("You bought a book");
+                }
+                
+                else if(determine == 5){
+                    alert("You bought a laptop");
+                }
+                
+                else if(determine == 6){
+                    alert("You bought some coffee");
+                }
+                
+                else if(determine == 7){
+                    alert("You bought a candy bar");
+                }
+                
+                else if(determine == 8){
+                    alert("You bought some fast food");
+                }
+                
+                else if(determine == 9){
+                    alert("You bought a delicious Fuego Taco");
+                }
+            }
+            
+            //load other images based on what button is clicked. Basically displays more info and option to buy item
+            function pencilClick(){ 
+                var pencilImage;
+                var pencilDesc;
+                var pencilDamage;
+                var pencilCost;
+                
+                determine = 1;
+                
+                pencilImage = game.add.image(750, 250, 'pencil_image');
+                pencilImage.scale.setTo(0.5, 0.5);
+                pencilImage.anchor.set(0.5);
+               
+                pencilDesc = game.add.image(750, pencilImage.y + 150, 'pencil_description');
+                pencilDesc.scale.setTo(0.4, 0.4);
+                pencilDesc.anchor.set(0.5);
+                
+                pencilDamage = game.add.image(750, pencilDesc.y + 85, 'pencil_damage');
+                pencilDamage.scale.setTo(0.4, 0.4);
+                pencilDamage.anchor.set(0.5);
+                
+                pencilCost = game.add.image(750, pencilDesc.y + 170, 'pencil_cost');
+                pencilCost.scale.setTo(0.4, 0.4);
+                pencilCost.anchor.set(0.5);  
+                
+                //buy button. This same snippet of code below is in each function below. 
+                buy = game.add.button(game.width - 75, game.height - 40, 'buyButton', buyItem());
+                buy.scale.setTo(0.4, 0.4);
+                buy.anchor.set(0.5);
+            }
+            
+            function penClick(){
+                var penImage;
+                var penDesc;
+                var penDamage;
+                var penCost;
+                
+                determine = 2;
+                
+                penImage = game.add.image(750, 250, 'pen_image');
+                penImage.scale.setTo(0.5, 0.5);
+                penImage.anchor.set(0.5);
+               
+                penDesc = game.add.image(750, penImage.y + 150, 'pen_description');
+                penDesc.scale.setTo(0.4, 0.4);
+                penDesc.anchor.set(0.5);
+                
+                penDamage = game.add.image(750, penDesc.y + 85, 'pen_damage');
+                penDamage.scale.setTo(0.4, 0.4);
+                penDamage.anchor.set(0.5);
+                
+                penCost = game.add.image(750, penDesc.y + 170, 'pen_cost');
+                penCost.scale.setTo(0.4, 0.4);
+                penCost.anchor.set(0.5);
+                
+                buy = game.add.button(game.width - 75, game.height - 40, 'buyButton', buyItem());
+                buy.scale.setTo(0.4, 0.4);
+                buy.anchor.set(0.5);
+            }
+            
+            function calcClick(){
+                var calculatorImage;
+                var calculatorDesc;
+                var calculatorDamage;
+                var calculatorCost;
+                
+                determine = 3;
+                
+                calculatorImage = game.add.image(750, 250, 'calculator_image');
+                calculatorImage.scale.setTo(0.5, 0.5);
+                calculatorImage.anchor.set(0.5);
+               
+                calculatorDesc = game.add.image(750, calculatorImage.y + 150, 'calculator_description');
+                calculatorDesc.scale.setTo(0.4, 0.4);
+                calculatorDesc.anchor.set(0.5);
+                
+                calculatorDamage = game.add.image(750, calculatorDesc.y + 85, 'calculator_damage');
+                calculatorDamage.scale.setTo(0.4, 0.4);
+                calculatorDamage.anchor.set(0.5);
+                
+                calculatorCost = game.add.image(750, calculatorDesc.y + 170, 'calculator_cost');
+                calculatorCost.scale.setTo(0.4, 0.4);
+                calculatorCost.anchor.set(0.5);
+                
+                buy = game.add.button(game.width - 75, game.height - 40, 'buyButton', buyItem());
+                buy.scale.setTo(0.4, 0.4);
+                buy.anchor.set(0.5);
+            }
+            
+            function bookClick(){
+                var booksImage;
+                var booksDesc;
+                var booksDamage;
+                var booksCost;
+                
+                determine = 4;
+                
+                booksImage = game.add.image(750, 250, 'books_image');
+                booksImage.scale.setTo(0.5, 0.5);
+                booksImage.anchor.set(0.5);
+               
+                booksDesc = game.add.image(750, booksImage.y + 150, 'books_description');
+                booksDesc.scale.setTo(0.4, 0.4);
+                booksDesc.anchor.set(0.5);
+                
+                booksDamage = game.add.image(750, booksDesc.y + 85, 'books_damage');
+                booksDamage.scale.setTo(0.4, 0.4);
+                booksDamage.anchor.set(0.5);
+                
+                booksCost = game.add.image(750, booksDesc.y + 170, 'books_cost');
+                booksCost.scale.setTo(0.4, 0.4);
+                booksCost.anchor.set(0.5);
+                
+                buy = game.add.button(game.width - 75, game.height - 40, 'buyButton', buyItem());
+                buy.scale.setTo(0.4, 0.4);
+                buy.anchor.set(0.5);
+            }
+            
+            function laptopClick(){
+                var laptopImage;
+                var laptopDesc;
+                var laptopDamage;
+                var laptopCost;
+                
+                determine = 5;
+                
+                laptopImage = game.add.image(750, 250, 'laptop_image');
+                laptopImage.scale.setTo(0.5, 0.5);
+                laptopImage.anchor.set(0.5);
+               
+                laptopDesc = game.add.image(750, laptopImage.y + 150, 'laptop_description');
+                laptopDesc.scale.setTo(0.4, 0.4);
+                laptopDesc.anchor.set(0.5);
+                
+                laptopDamage = game.add.image(750, laptopDesc.y + 85, 'laptop_damage');
+                laptopDamage.scale.setTo(0.4, 0.4);
+                laptopDamage.anchor.set(0.5);
+                
+                laptopCost = game.add.image(750, laptopDesc.y + 170, 'laptop_cost');
+                laptopCost.scale.setTo(0.4, 0.4);
+                laptopCost.anchor.set(0.5);
+                
+                buy = game.add.button(game.width - 75, game.height - 40, 'buyButton', buyItem());
+                buy.scale.setTo(0.4, 0.4);
+                buy.anchor.set(0.5);
+            }
+            
+            function coffeeClick(){
+                var coffeeImage;
+                var coffeeDesc;
+                var coffeeHealth;
+                var coffeeCost;
+                
+                determine = 6;
+                
+                coffeeImage = game.add.image(750, 250, 'coffee_image');
+                coffeeImage.scale.setTo(0.5, 0.5);
+                coffeeImage.anchor.set(0.5);
+               
+                coffeeDesc = game.add.image(750, coffeeImage.y + 150, 'coffee_description');
+                coffeeDesc.scale.setTo(0.4, 0.4);
+                coffeeDesc.anchor.set(0.5);
+                
+                coffeeHealth = game.add.image(750, coffeeDesc.y + 85, 'coffee_health');
+                coffeeHealth.scale.setTo(0.4, 0.4);
+                coffeeHealth.anchor.set(0.5);
+                
+                coffeeCost = game.add.image(750, coffeeDesc.y + 170, 'coffee_cost');
+                coffeeCost.scale.setTo(0.4, 0.4);
+                coffeeCost.anchor.set(0.5);
+                
+                buy = game.add.button(game.width - 75, game.height - 40, 'buyButton', buyItem());
+                buy.scale.setTo(0.4, 0.4);
+                buy.anchor.set(0.5);
+            }
+            
+            function candyBarClick(){
+                var candyBarImage;
+                var candyBarDesc;
+                var candyBarHealth;
+                var candyBarCost;
+                
+                determine = 7;
+                
+                candyBarImage = game.add.image(750, 250, 'candyBar_image');
+                candyBarImage.scale.setTo(0.5, 0.5);
+                candyBarImage.anchor.set(0.5);
+               
+                candyBarDesc = game.add.image(750, candyBarImage.y + 150, 'candyBar_description');
+                candyBarDesc.scale.setTo(0.4, 0.4);
+                candyBarDesc.anchor.set(0.5);
+                
+                candyBarHealth = game.add.image(750, candyBarDesc.y + 85, 'candyBar_health');
+                candyBarHealth.scale.setTo(0.4, 0.4);
+                candyBarHealth.anchor.set(0.5);
+                
+                candyBarCost = game.add.image(750, candyBarDesc.y + 170, 'candyBar_cost');
+                candyBarCost.scale.setTo(0.4, 0.4);
+                candyBarCost.anchor.set(0.5);
+                
+                buy = game.add.button(game.width - 75, game.height - 40, 'buyButton', buyItem());
+                buy.scale.setTo(0.4, 0.4);
+                buy.anchor.set(0.5);
+            }
+            
+            function foodClick(){
+                var fastFoodImage;
+                var fastFoodDesc;
+                var fastFoodHealth;
+                var fastFoodCost;
+                
+                determine = 8;
+                
+                fastFoodImage = game.add.image(750, 250, 'fastFood_image');
+                fastFoodImage.scale.setTo(0.5, 0.5);
+                fastFoodImage.anchor.set(0.5);
+               
+                fastFoodDesc = game.add.image(750, fastFoodImage.y + 150, 'fastFood_description');
+                fastFoodDesc.scale.setTo(0.4, 0.4);
+                fastFoodDesc.anchor.set(0.5);
+                
+                fastFoodHealth = game.add.image(750, fastFoodDesc.y + 85, 'fastFood_health');
+                fastFoodHealth.scale.setTo(0.4, 0.4);
+                fastFoodHealth.anchor.set(0.5);
+                
+                fastFoodCost = game.add.image(750, fastFoodDesc.y + 170, 'fastFood_cost');
+                fastFoodCost.scale.setTo(0.4, 0.4);
+                fastFoodCost.anchor.set(0.5);
+                
+                buy = game.add.button(game.width - 75, game.height - 40, 'buyButton', buyItem());
+                buy.scale.setTo(0.4, 0.4);
+                buy.anchor.set(0.5);
+            }
+            
+            function tacoClick(){
+                var tacoImage;
+                var tacoDesc;
+                var tacoHealth;
+                var tacoCost;
+                
+                determine = 9;
+                
+                tacoImage = game.add.image(750, 250, 'taco_image');
+                tacoImage.scale.setTo(0.5, 0.5);
+                tacoImage.anchor.set(0.5);
+               
+                tacoDesc = game.add.image(750, tacoImage.y + 150, 'taco_description');
+                tacoDesc.scale.setTo(0.4, 0.4);
+                tacoDesc.anchor.set(0.5);
+                
+                tacoHealth = game.add.image(750, tacoDesc.y + 85, 'taco_health');
+                tacoHealth.scale.setTo(0.4, 0.4);
+                tacoHealth.anchor.set(0.5);
+                
+                tacoCost = game.add.image(750, tacoDesc.y + 170, 'taco_cost');
+                tacoCost.scale.setTo(0.4, 0.4);
+                tacoCost.anchor.set(0.5);
+                
+                buy = game.add.button(game.width - 75, game.height - 40, 'buyButton', buyItem());
+                buy.scale.setTo(0.4, 0.4);
+                buy.anchor.set(0.5);
+            }
+       
+        </script>
+    </body>
+</html>
