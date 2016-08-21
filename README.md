@@ -1,5 +1,7 @@
-# whileTrueFork
-315 group project 2
+Texas A&M University
+CSCE 315 group project 2
+
+Original URL: https://github.tamu.edu/erangil123/315-game-whileTrueFork
 
 This release is the final release during the project span for our game.
 
