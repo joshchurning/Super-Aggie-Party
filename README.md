@@ -28,7 +28,7 @@ Go to right directory -> type in "node server.js" to compile and run.
 This will return back on the console "listening on port ..." where ... is a number the port will be.
 
 
-Next, go to a webbrowser and type in "compute.cse.tamu.edu:..." where ... is the number you see on the console as stated above. 
+Next, go to a webbrowser and type in "localhost:..." where ... is the number you see on the console as stated above. 
 
 After going to our index screen, type in name and click create game. This will create a new lobby and will give a room number so your friend can join. Ask your friend to enter name and room number and click "join game" button. This will now take you to the game where you can start playing.
 
